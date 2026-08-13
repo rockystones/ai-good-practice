@@ -25,7 +25,7 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - **The question**, in one sentence. If it takes three sentences, it is several questions — split them.
 - **Why now**: which chapter or decision this research informs. This defines relevance, and therefore when to stop.
 - **Sub-questions** (3–7): what a complete answer must cover.
-- **Priors and falsifiers**: what we currently believe, and what evidence would change it. Written first — the cheapest known defense against confirmation bias (see practices/P-002).
+- **Priors and falsifiers**: what we currently believe, and what evidence would change it. Written first — the cheapest known defense against confirmation bias (see practices/P-002). Where a prediction is checkable, pre-register the numeric band that counts as pass or fail — the whole range, stated before the probe. Failed pre-registrations get recorded, not rewritten (D-010).
 - **Done criteria**: coverage-based, not effort-based. "Each sub-question answered at corroborated grade or better, or its unknowns explicitly stated" — not "spend two hours."
 
 ## Phase 1 — Plan *(answers Q2; goes in BRIEF.md)*
@@ -42,6 +42,8 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - **Trace lineage** of load-bearing claims to their origin. Two hundred articles citing one tweet is one source. Record the origin, then count *independent* confirmations.
 - **The Numbers Rule** (added 2026-08-13, D-009): no statistic ships without being traced to the primary table or figure it came from. Summary layers — abstracts, journalism, even peer-reviewed review articles — detach real numbers from what they measured (wrong denominator, wrong units, wrong model, stale vintage) at a high observed rate. If the table is unreachable, print the claim without the number or not at all.
 - Note each source's **incentive**: vendors sell, boosters and doomers both farm engagement, researchers chase novelty. Incentive doesn't disqualify — it sets the verification burden.
+- **Gatherers write files, not chat** (D-010): fan-out agents write their source logs and claims directly into `research/<session>/gather/` under the **checkpoint rule** — after roughly every ten items, rewrite the output file as a complete, parseable document (full overwrite, never append). An interrupted session leaves a salvageable checkpoint; an append-partial is garbage. Agents return one-line summaries, keeping the orchestrator's context small.
+- **Caps are not quotas.** Bounding an agent's *work volume* ("aim 8–15 sources") is fine. Giving it per-batch targets for *judgment outputs* (grades, scores, findings-per-source) manufactures fake consistency: the scale's lower half goes unused while the averages look beautifully calibrated.
 
 ## Phase 3 — Appraise *(answers Q3; SOURCES.md + FINDINGS.md)*
 
@@ -55,6 +57,8 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - **Adversarial pass**: for each top claim, actively try to refute it — search the counter-position; for anything surprising or convenient, spawn an independent refutation subagent.
 - **Missing-voice check**: who would disagree, and where do they write? Have we sampled outside the anglophone / vendor / enthusiast bubble relevant to this question?
 - **Saturation test**: run one more genuinely fresh angle. If it yields no new lineages and changes no answer, coverage is adequate for the framed scope. Two consecutive dry angles = stop.
+- **Spot audit for base error** (D-010): anchor-claim verification only audits the headlines. Also verify a small, blindly-drawn random sample of ordinary claims and publish the observed error rate in FINDINGS. A session that audits only its important claims does not know its background error rate. The sample is drawn by the orchestrator or a script — never chosen by the agent whose work is being audited.
+- **Distrust perfect results** (D-010): an agent reporting 100% success, zero problems, or nothing-to-flag gets spot-checked before its output is merged. Diligence and fabrication look identical in a summary line.
 
 ## Phase 4 — Synthesize *(answers Q4; FINDINGS.md)*
 
@@ -62,6 +66,7 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - Keep contradictions visible. Smoothing a contested question into false confidence is the cardinal sin here.
 - State **what remains unknown** and what would settle it.
 - Only after FINDINGS.md is complete does drafting into `primer/` or `practices/` begin.
+- **Post-draft number diff** (D-010, extending the Numbers Rule): drafting is itself a summary layer, and summary layers detach numbers from labels. After any distillation, re-check every statistic in the draft against FINDINGS before commit. Never machine-edit judgment text (truncation, auto-summarization) — route corrections back to an author.
 
 ## Phase 5 — Retrospective *(answers Q5; end of FINDINGS.md; mandatory)*
 
@@ -69,6 +74,7 @@ Ten minutes, honestly:
 
 - Did the results answer the framed question, or did the session drift? If the question changed, was the change deliberate and logged?
 - Which angle had the highest yield? Which was wasted effort?
+- **Angle accounting** (D-010): for each planned angle, count the load-bearing claims that *only* it surfaced. An angle with zero sole contributions was a passenger on the other angles' work — drop or redesign it next time.
 - Where did loudness distort weight — what got attention because it was everywhere, rather than because it was good?
 - What bias did we catch ourselves in?
 - **One process improvement** for next time. If it generalizes, amend this protocol and log the amendment in DECISIONS.md.
@@ -87,6 +93,8 @@ Stop at saturation, at done-criteria, or at the session's budget cap — whichev
 | 3 Appraise | Opus-class (adversarial refutation, lineage checks) | Kept independent of the gatherers' framing |
 | 4 Synthesize | Orchestrator | One mind synthesizes; parallel synthesis produces mush |
 | 5 Retro | Orchestrator + owner | Feeds protocol amendments |
+
+**Read/write separation** (D-010): subagents write only provenance files (`gather/`, `verify/`); the orchestrator alone writes SOURCES.md, FINDINGS.md, and anything distilled from them, applying verifier corrections itself. **Telemetry**: every research session maintains a `SESSION-LOG.md` ([template](templates/session-log.md)), filled per phase while the numbers are still in context — process is the least-preserved layer, and comparing session N to session N+1 is how this protocol itself gets tested. **Owner review** of drafted chapters follows [owner-review.md](owner-review.md).
 
 ## Hygiene for the AI-era web
 

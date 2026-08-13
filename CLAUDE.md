@@ -17,7 +17,10 @@ Purpose: a primer + practice guide for using AI well, aimed at smart non-enginee
 - Subagents by tier — **Opus-class**: deep research, source appraisal, adversarial refutation, chapter drafting. **Sonnet-class**: source sweeps, claim extraction, per-source summaries, cross-referencing. **Haiku-class**: mechanical chores (link checks, index/status regeneration, format lint).
 - Don't fan out when the orchestrator can do the work in fewer tokens. Parallelism is for breadth, not ceremony.
 - **Research sessions are owner-gated**: propose scope first (topic, sub-questions, rough agent count), wait for go. One topic per session.
-- Session types: **research** (runs the protocol, gated) → **distill** (research → chapter/cards) → **owner review** (feedback pass) → **refresh** (re-verify dated pages on their review-by dates).
+- Session types: **research** (runs the protocol, gated) → **distill** (research → chapter/cards) → **owner review** (per [method/owner-review.md](method/owner-review.md)) → **refresh** (re-verify dated pages on their review-by dates).
+- Fan-out agents write provenance files (`research/<session>/gather/`, `verify/`) under the checkpoint rule and return one-line summaries; the orchestrator alone writes SOURCES/FINDINGS/drafts and applies verifier corrections (read/write separation, D-010).
+- Spot-check any agent output reporting perfect results before merging it — diligence and fabrication look identical in a summary line.
+- Every research session fills `SESSION-LOG.md` (template in method/templates/) per phase, while the numbers are still in context.
 
 ## Content rules
 
@@ -27,6 +30,7 @@ Purpose: a primer + practice guide for using AI well, aimed at smart non-enginee
 - Research outputs land in `research/YYYY-MM-DD-<slug>/` **before** anything is distilled into `primer/` or `practices/`.
 - During any research, log recommendable learning resources (courses, sites, tools, people, lists) to [RESOURCES.md](RESOURCES.md) with a why-good note and the session pointer (D-008). Capture inline; curate later.
 - Plain language; jargon defined on first use. English.
+- Case material from the owner's other projects appears at **pattern level only** (D-011): patterns, process measurements, and lessons — never project contents, names, domains, or identifying details. Provenance is phrased generically.
 
 ## Logs
 

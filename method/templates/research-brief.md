@@ -17,6 +17,7 @@
 **Priors and falsifiers:**
 
 - I currently believe … I would change my mind if …
+- Checkable predictions get numeric bands, stated now, covering the whole range. Failed pre-registrations are recorded, not rewritten.
 
 **Done criteria:** <coverage-based, e.g. "every sub-question at corroborated grade or better, or unknowns stated">
 

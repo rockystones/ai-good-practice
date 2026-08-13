@@ -12,6 +12,10 @@
 
 *(repeat per sub-question; an unanswered one says so, and why)*
 
+## Base error estimate
+
+<N randomly-drawn, non-anchor claims verified (drawn blind per protocol Phase 3); X had errors → observed rate with a rough interval. If skipped, say so and why.>
+
 ## Surprises
 
 <what contradicted the priors written in BRIEF.md>
@@ -30,6 +34,7 @@
 
 - Framed question actually answered? Any drift — deliberate or accidental?
 - Highest-yield angle / wasted angle:
+- Angle accounting — sole contributions per angle (a zero = passenger):
 - Where loudness distorted weight:
 - Bias caught:
 - **One process improvement:** <if it generalizes → amend the protocol + log in DECISIONS.md>
