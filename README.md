@@ -22,6 +22,7 @@ Most AI writing is either vendor documentation (accurate, but narrow and product
 | [SYLLABUS.md](SYLLABUS.md) | Curriculum map + chapter status (single source of truth) |
 | [primer/](primer/) | The chapters — the actual guide |
 | [practices/](practices/) | Practice cards: one durable technique each |
+| [RESOURCES.md](RESOURCES.md) | Learning resources captured during research (feeds Ch. 16) |
 | [method/](method/) | How research here is done: protocol, source tiers, templates |
 | [research/](research/) | Dated research-session outputs (briefs, source logs, findings) |
 | [journal/](journal/) | Learning log — lessons captured as they happen |

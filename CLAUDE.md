@@ -25,6 +25,7 @@ Purpose: a primer + practice guide for using AI well, aimed at smart non-enginee
 - Dated pages open with "As of <Month YYYY>".
 - Load-bearing claims carry evidence labels (established / corroborated / single-source / contested / anecdote) per [method/research-protocol.md](method/research-protocol.md).
 - Research outputs land in `research/YYYY-MM-DD-<slug>/` **before** anything is distilled into `primer/` or `practices/`.
+- During any research, log recommendable learning resources (courses, sites, tools, people, lists) to [RESOURCES.md](RESOURCES.md) with a why-good note and the session pointer (D-008). Capture inline; curate later.
 - Plain language; jargon defined on first use. English.
 
 ## Logs
