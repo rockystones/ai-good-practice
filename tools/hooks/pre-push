@@ -1,0 +1,13 @@
+#!/bin/sh
+# Final gate before publishing: this repo is public — scan everything tracked.
+if command -v python >/dev/null 2>&1; then PY=python
+elif command -v py >/dev/null 2>&1; then PY="py -3"
+else
+  echo "BLOCKED: python not found; cannot run tools/scan.py" >&2
+  exit 1
+fi
+
+$PY tools/scan.py --all || {
+  echo "BLOCKED: sensitive-info scan failed; push aborted." >&2
+  exit 1
+}

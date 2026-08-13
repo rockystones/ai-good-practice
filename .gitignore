@@ -1,0 +1,17 @@
+# Never-commit zone: personal drafts and notes with private context
+private/
+scratch/
+
+# Python
+__pycache__/
+*.pyc
+
+# Secrets / environment
+.env
+.env.*
+
+# OS noise
+.DS_Store
+Thumbs.db
+~$*
+*.tmp

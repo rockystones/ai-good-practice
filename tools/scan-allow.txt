@@ -1,0 +1,3 @@
+# Exact-match allowlist for tools/scan.py findings.
+# One approved literal string per line; add a comment line above each explaining why.
+# This file itself is excluded from scanning — review its diffs carefully.

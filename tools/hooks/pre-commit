@@ -1,0 +1,24 @@
+#!/bin/sh
+# Gate 1: commit identity must be a GitHub noreply address (this repo is public).
+email=$(git config user.email)
+case "$email" in
+  *users.noreply.github.com) ;;
+  *)
+    echo "BLOCKED: user.email is '$email' — must be the GitHub noreply address." >&2
+    echo "Fix: git config user.email '<id>+<login>@users.noreply.github.com'" >&2
+    exit 1
+    ;;
+esac
+
+# Gate 2: staged content must pass the sensitive-info scan.
+if command -v python >/dev/null 2>&1; then PY=python
+elif command -v py >/dev/null 2>&1; then PY="py -3"
+else
+  echo "BLOCKED: python not found; cannot run tools/scan.py" >&2
+  exit 1
+fi
+
+$PY tools/scan.py --staged || {
+  echo "BLOCKED: sensitive-info scan failed. Fix the findings, or add exact false positives to tools/scan-allow.txt." >&2
+  exit 1
+}
