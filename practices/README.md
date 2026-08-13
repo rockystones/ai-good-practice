@@ -20,3 +20,4 @@ Plus the standard front-matter (`status`, `durability`, `last-reviewed`).
 |---|---|
 | [P-001](P-001-negative-controls.md) | Test your checks with cases that must fail, not only cases that should pass |
 | [P-002](P-002-pre-register-the-question.md) | Write the question down before you start searching |
+| [P-003](P-003-trace-the-number.md) | Never repeat a statistic without seeing the primary table it came from |

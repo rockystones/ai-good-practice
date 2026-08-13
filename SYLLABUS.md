@@ -10,7 +10,7 @@ Durability classes are defined in [CHARTER.md](CHARTER.md). Suggested reading or
 | # | Chapter | The promise | Durability | Status |
 |---|---|---|---|---|
 | 00 | Orientation | How to use this guide; the learner's mindset — calibrated trust, not faith or dismissal | durable | todo |
-| 01 | What a language model actually is | Next-token prediction, training vs inference, why it "knows" things and why it makes things up — the one mental model everything else builds on | durable | researching — R1 findings complete 2026-08-13, ready to draft |
+| 01 | [What a language model actually is](primer/01-what-a-language-model-actually-is.md) | Next-token prediction, training vs inference, why it "knows" things and why it makes things up — the one mental model everything else builds on | durable | **review** — drafted 2026-08-13 from R1; awaiting owner review (method/owner-review.md) |
 | 02 | The anatomy of an AI product | It's never just the model: context window, system prompts, tools, retrieval, memory — where each behavior actually comes from | durable | todo |
 | 03 | Where AI fails: a field guide to limitations | Hallucination, sycophancy, context degradation, the jagged frontier, prompt sensitivity — recognizing each in the wild | durable | todo |
 | 04 | Tokens, context, and cost | The economics: why long conversations degrade and cost more, caching, small vs big models | durable | todo |
