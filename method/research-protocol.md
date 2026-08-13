@@ -40,6 +40,7 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - Log **every source consulted**, including rejects (marked rejected, with the reason). The log is the audit trail.
 - Extract claims with locators (section, short quote), not vibes. Quotes stay short and attributed.
 - **Trace lineage** of load-bearing claims to their origin. Two hundred articles citing one tweet is one source. Record the origin, then count *independent* confirmations.
+- **The Numbers Rule** (added 2026-08-13, D-009): no statistic ships without being traced to the primary table or figure it came from. Summary layers — abstracts, journalism, even peer-reviewed review articles — detach real numbers from what they measured (wrong denominator, wrong units, wrong model, stale vintage) at a high observed rate. If the table is unreachable, print the claim without the number or not at all.
 - Note each source's **incentive**: vendors sell, boosters and doomers both farm engagement, researchers chase novelty. Incentive doesn't disqualify — it sets the verification burden.
 
 ## Phase 3 — Appraise *(answers Q3; SOURCES.md + FINDINGS.md)*
