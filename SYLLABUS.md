@@ -12,8 +12,8 @@ Roster expanded 2026-08-13 (D-012) after an owner review charge: reasoning model
 | # | Chapter | The promise | Durability | Status |
 |---|---|---|---|---|
 | 00 | Orientation | How to use this guide; the learner's mindset — calibrated trust, not faith or dismissal | durable | todo |
-| 01 | [What a language model actually is](primer/01-what-a-language-model-actually-is.md) | Next-token prediction, weights vs context window, post-training, why it "knows" things and why it makes things up — the mental model everything builds on | durable | **review** |
-| 02 | Models that reason | Thinking modes and chains of thought: how they're trained, where they genuinely help, what they cost, and why a visible trace isn't a proof | semi | todo |
+| 01 | [What a language model actually is](primer/01-what-a-language-model-actually-is.md) | Next-token prediction, weights vs context window, post-training, why it "knows" things and why it makes things up — the mental model everything builds on | durable | **review — parked** ([round 1](research/2026-08-13-ch01-what-an-llm-is/review/round-1.md) applied) |
+| 02 | Models that reason | Thinking modes and chains of thought: how they're trained, where they genuinely help, what they cost, and why a visible trace isn't a proof | semi | **researching** — R2 from 2026-08-15 |
 | 03 | The anatomy of an AI product | It's never just the model: system prompts, retrieval, tools, persistent memory — where each behavior actually comes from | durable | todo |
 | 04 | Beyond text: image, audio, and video | A different machine (diffusion, not next-token): what it's good at, why prompting differs, provenance and deepfake literacy, licensing | semi | todo |
 | 05 | Where AI fails: a field guide to limitations | Hallucination, sycophancy, context degradation, the jagged frontier, prompt sensitivity — recognizing each in the wild | durable | todo |
