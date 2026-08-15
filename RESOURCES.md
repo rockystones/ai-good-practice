@@ -39,6 +39,22 @@ Entries from session R1 were link-verified on 2026-08-13 unless marked otherwise
 - **Julian Michael — "To Dissect an Octopus"** — https://julianmichael.org/blog/2020/07/23/to-dissect-an-octopus.html · Best accessible route into the Bender–Koller "fluent ≠ understanding" thought experiment · ~15 min · philosophical argument, not empirical proof · (R1)
 - **IEEE Spectrum — Bender interview on "stochastic parrots"** — https://spectrum.ieee.org/stochastic-parrot · The strongest accessible statement of the skeptical position on machine "knowing" · ~8 min · one side of a live debate; pair with the interpretability side · (R1)
 
+## Reasoning / thinking models (session R2)
+
+- **Understanding Reasoning LLMs** (Sebastian Raschka) — https://magazine.sebastianraschka.com/p/understanding-reasoning-llms · The clearest single account of how reasoning models are built · ~25 min · one diagram's worth of technical tolerance required · (R2)
+- **The Illustrated DeepSeek-R1** (Jay Alammar) — https://newsletter.languagemodels.co/p/the-illustrated-deepseek-r1 · Visual walkthrough of a reasoning model's training recipe, by the author of the transformer explainer many people learn from · ~20 min · (R2)
+- **What We Mean When We Say "Think"** (David Breunig) — https://www.dbreunig.com/2025/04/11/what-we-mean-when-we-say-think.html · Short essay directly on the anthropomorphism trap in vendor UI language · ~8 min · (R2)
+- **Reasoning models don't always say what they think** (Anthropic) — https://www.anthropic.com/research/reasoning-models-dont-say-think · A lab publishing that its own product's explanations are unreliable; worked examples are the clearest part · ~15 min · admission-against-interest, which is why it's worth reading · (R2)
+- **Claude's extended thinking docs** — https://platform.claude.com/docs/en/build-with-claude/thinking · Five minutes here tells you exactly what your own interface is and isn't showing you, and what you're billed for · ~5 min · vendor docs, but this is the authoritative place for product mechanics · (R2)
+- **Chain of Thought Monitorability** (multi-lab position paper) — https://arxiv.org/abs/2507.11473 · Why the field treats a readable trace as a safety property worth protecting, and what would break it · ~30 min for the framing sections · technical, but the opening is accessible · (R2)
+- **Notes on OpenAI's o1** (Simon Willison) — https://simonwillison.net/2024/Sep/12/openai-o1/ · A careful practitioner's first reaction, preserved — useful for seeing what was and wasn't obvious at the time · ~10 min · (R2)
+- **DeepSeek R1's recipe** (Nathan Lambert, Interconnects) — https://www.interconnects.ai/p/deepseek-r1-recipe-for-o1 · Post-training specialist on what the open replication actually showed · ~15 min · assumes some ML vocabulary · (R2)
+- **Is AI Reasoning Right for the Wrong Reasons?** (Quanta) — https://www.quantamagazine.org/is-ai-reasoning-right-for-the-wrong-reasons-20260731/ · General-audience entry to the collapse debate · ~15 min · (R2)
+
+**Gap:** no verifiable good *video* explainer of reasoning models was found (R2). One candidate couldn't be verified because YouTube transcripts are unreachable with our tooling. Contributions welcome.
+
+**Rejected, and why** (R2): a "5 Best AI Reasoning Models" listicle with unsourced benchmark percentages and no method; a hands-on reasoning course requiring Python (wrong audience, same pattern as R1's rejection); a hallucination-detection vendor's blog on a rival model's hallucination rate (direct commercial incentive, unvetted); an interactive trace visualizer that requires you to already have a trace to paste.
+
 ## People & blogs to follow
 
 - **Simon Willison** — https://simonwillison.net/ · Clearest skeptical-but-fair practitioner tracking of what new models actually do; start with "a calculator for words" (2023) · several short posts/week · writes for developers; filter to conceptual/security posts · (R1)
