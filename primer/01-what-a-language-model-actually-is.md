@@ -11,6 +11,8 @@ Every time you send a message to an AI chatbot, the same thing happens: a very l
 
 That description is accurate, incomplete, and — left alone — misleading. Every good explainer starts with it anyway, then spends the rest of the time complicating it. This chapter does the same. By the end you'll have a mental model that predicts both what these systems are good at and the specific, strange ways they fail — which is the only test of a mental model that matters.
 
+*Scope: this chapter is about **language models** — the text engines behind chatbots and coding assistants. Image, audio, and video generators are a different family built on a different principle; they get [chapter 04](../SYLLABUS.md). What's wrapped around the model in a real product — tools, retrieval, persistent memory — is [chapter 03](../SYLLABUS.md).*
+
 *Evidence labels on load-bearing claims — `[established]` broad independent corroboration · `[corroborated]` ≥2 independent lineages · `[single-source]` · `[contested]` credible experts disagree · `[anecdote]` — are defined in [the research protocol](../method/research-protocol.md). Every claim here traces to a [logged research session](../research/2026-08-13-ch01-what-an-llm-is/) in which eight anchor claims were adversarially verified — four came back corrected, which tells you something about secondhand AI facts generally.*
 
 ## 1. The machine that continues text
@@ -39,7 +41,23 @@ Two things about this deserve to be tattooed somewhere visible:
 
 This is also why every model has a **knowledge cutoff**. The weights froze on a training snapshot; anything after it simply isn't in there. When a chatbot does know yesterday's news, that's not the model — it's a bolted-on search tool feeding text into the conversation (chapter 02 is about those bolts).
 
-## 3. From autocomplete to assistant
+## 3. Two kinds of memory: the weights and the window
+
+Everything the model can use when answering you lives in one of exactly two places, and telling them apart explains more day-to-day behavior than any other distinction in this chapter.
+
+**The weights** hold what training compressed — everything from §2. Vast, lossy, frozen, and cut off at a date.
+
+**The context window** holds this conversation: the vendor's hidden instructions, your messages, whatever you pasted, plus anything a tool fetched. This text is present *verbatim*, not compressed. It's also finite — a budget measured in tokens — and everything competes for the same space.
+
+The mechanism that lets the model use the window is **attention**. As it computes each next token, the model looks back across everything in the window and weighs which earlier pieces matter for this particular prediction — pronouns reaching back to the name they refer to, a question reaching back to the document you pasted. Roughly: the trained layers supply what the model learned in general, and attention supplies what's relevant *right now, here in front of it*. `[corroborated]`
+
+Three things follow, and they're worth more than the mechanism itself:
+
+- **Pasting beats asking it to recall.** Text in the window is exact; text "in the weights" is a compressed reconstruction. This is the single strongest reason the working style in §10 — feed it the material, don't quiz it — outperforms the alternative.
+- **Nothing persists between conversations by default.** Start a new chat and the window is empty; the weights never changed (§2). When a product does remember you, that's a **memory feature**: a wrapper that stores facts and quietly re-inserts them into the window later. The model is still stateless underneath — it's just being handed a note each time. (Chapter 03.)
+- **The window is a budget you're always spending.** Long conversations, big pastes, and chatty tool output all consume it, and cost scales with what's in it. How reliably models use *very* long windows is uneven and an active research question — chapter 06 takes the economics and the limits properly.
+
+## 4. From autocomplete to assistant
 
 Here's the part most explainers skip, and it explains more everyday AI behavior than anything else in this chapter.
 
@@ -57,9 +75,21 @@ So the assistant you experience is a two-layer object: a vast frozen compression
 - **Sycophancy.** Human raters — and the preference models trained on them — sometimes prefer a confident, agreeable, *wrong* answer to a correct, disagreeable one. Optimizing against such preferences measurably trades truthfulness for agreeableness; the effect was documented across five deployed assistants from three different companies. `[established]` When a chatbot caves the moment you push back, you are watching the training target, not a personality.
 - **Damaged self-knowledge.** OpenAI's own GPT-4 report includes a striking admission against interest: the raw pretrained model was "highly calibrated" — its internal confidence tracked how often it was actually right — and after post-training, in the report's own words, "the post-training hurts calibration significantly." (One figure, multiple-choice questions, never externally checkable since the base model wasn't released — but it's the vendor saying it.) `[single-source — admission against interest]` The layer that makes the model pleasant also blunts its ability to signal "I'm not sure."
 
-Keep those two in your pocket. They're half the explanation for the next section.
+Keep those two in your pocket. They're half the explanation for §7.
 
-## 4. In what sense does it "know" things?
+## 5. Models that think before they answer
+
+Since late 2024, the frontier products ship a "reasoning" or "thinking" mode — sometimes as a toggle, increasingly as the default. Before the answer you see, the model generates a long stretch of tokens *to itself*: attempts, dead ends, corrections. It's the same loop from §1, just spent working rather than talking.
+
+These models are trained differently in one important way. Alongside human-preference feedback (§4), they're trained with reinforcement learning on tasks where an answer can be **checked automatically** — arithmetic, code that either runs or doesn't, puzzles with verifiable solutions. The model produces many attempts and is trained toward the ones that verify. No human rater sits in that loop, which is precisely why it scales. `[corroborated]`
+
+**It measurably works, on some things.** On a classic block-stacking planning benchmark where 2023-era models produced correct plans about 3% of the time, a 2024 reasoning model scored 97.8%. Reasoning variants also hallucinate less: in one vendor's 2025 system card, the thinking model got 4.5% of factual claims wrong against 7.2% for its non-thinking sibling. `[corroborated — verified against primaries]`
+
+**And it stops working in a revealing way.** Take those same puzzles and rename the objects into nonsense words: the same model drops to 52.8%. Require twenty or more steps: 23.6%. Conventional planning software solves all of them, faster and for a fraction of the cost. So what improved is not general planning competence — it's a much stronger ability to apply learned patterns, which still degrades when the pattern is disguised or the chain gets long. `[corroborated]`
+
+Two habits follow. First, **the visible "thinking" is not a proof**. Researchers who study planning argue these chains aren't the step-by-step logical reasoning they're marketed as, and that outputs still need external checking. Skim the trace for wrong turns — it's genuinely useful for that — but don't read it as evidence the answer is right. Second, **thinking costs**: many times the tokens, and real money and latency per question. It's the right tool for problems with a checkable answer and a real cost of being wrong, and overkill for "rewrite this paragraph." Chapter 02 takes reasoning modes properly; chapters 06 and 10 take the economics.
+
+## 6. In what sense does it "know" things?
 
 Ask "does it *really* understand?" and you'll find a genuine expert war. More useful: split the question into what's measured and what's contested.
 
@@ -73,7 +103,7 @@ Ask "does it *really* understand?" and you'll find a genuine expert war. More us
 
 **What you do with this:** drop the binary. "Does it understand?" has no operational answer. "Does it reliably do X, and can I verify X?" always does. The rest of this guide is built on the second question.
 
-## 5. Why it makes things up
+## 7. Why it makes things up
 
 The industry word is "hallucination" (some researchers object that the word implies a perceiving mind — "confabulation" is arguably better; we use hallucination because you'll meet it everywhere). The phenomenon: fluent, specific, confident statements that are false. Fabricated citations with plausible page numbers. Biographies of people who don't exist.
 
@@ -82,7 +112,7 @@ Andrej Karpathy's reframe is the right starting point: hallucination is not a ma
 On top of that base fact, three documented forces make it worse `[corroborated]`:
 
 1. **The training pipeline rewards guessing.** OpenAI's own analysis argues that generating true statements is provably harder than recognizing them, and — more damning — that standard benchmarks score "I don't know" exactly like a wrong answer, so models are "optimized to be good test-takers." Guessing maximizes the score. (Unrefereed, mostly OpenAI authors, and "blame the benchmarks" is convenient for a vendor — but the incentive analysis stands up.)
-2. **Post-training blunts the uncertainty signal** (§3's calibration result) — the model's sense of its own shakiness gets partially trained away in the process of making it pleasant.
+2. **Post-training blunts the uncertainty signal** (§4's calibration result) — the model's sense of its own shakiness gets partially trained away in the process of making it pleasant.
 3. **Sycophancy fills the gap with your preferences** — when unsure, agreeing with you scores well.
 
 **Is it fixable?** Honest answer: contested, in an interesting way. `[contested]` There are [formal proofs](https://arxiv.org/abs/2401.11817) that no such system can be right about everything — and [a rebuttal](https://arxiv.org/abs/2502.12187) showing that this "inevitability" is mathematically true but so weak it explains nothing practical, since error can in principle be driven statistically negligible. Both can be right: *never zero* and *much lower than today* are compatible. Abstention can be trained; retrieval grounding helps enormously. What nobody serious claims is that it's solved.
@@ -95,20 +125,20 @@ On top of that base fact, three documented forces make it worse `[corroborated]`
 
 Any single scary or reassuring figure you meet is one cell of a table like this (self-reported by a vendor and graded by another model, at that). What's not in dispute is the real-world cost: an independent database of court decisions in which judges found parties relying on AI-fabricated material listed **1,668 cases worldwide as of July 2026** — up from roughly 200 a year earlier, adding several per day, and an undercount by its own criteria. In one federal case, lawyers who filed 15 nonexistent citations and 8 invented quotations drew roughly $110,000 in sanctions and fees. `[corroborated]` These weren't people who thought AI was flawless; they were professionals who mistook fluency for checking.
 
-## 6. What people around you actually get wrong
+## 8. What people around you actually get wrong
 
 These aren't hypothetical confusions — each row below is a documented belief, with the strength of the evidence marked honestly (the research on this is young: one 2026 systematic review found only 28 studies worldwide).
 
 | The belief | How common, per the evidence | The replacement |
 |---|---|---|
-| "It understands me the way a person does" | 47% of a representative German sample agreed; only 21% correctly rejected it `[established]` | Plausible continuation, not comprehension — and see §4: even experts fight about the residue |
+| "It understands me the way a person does" | 47% of a representative German sample agreed; only 21% correctly rejected it `[established]` | Plausible continuation, not comprehension — and see §6: even experts fight about the residue |
 | "It looks answers up in a database / searches live" | Repeatedly found across studies; students in interviews described it as a search engine `[corroborated]` | Frozen compressed patterns + optional bolted-on search tools |
 | "Confident and fluent = probably correct" | The best-evidenced trap of all: in ~60 lab studies people trusted AI *more* given confident explanations — even when the displayed accuracy was as low as 50% `[established]` | Fluency is a style property of the generator; nothing in §1's loop checks reality |
 | "It might be a little bit conscious" | 67% of 300 surveyed US adults *declined to rule out* ChatGPT having experience — though the median rating was 16/100, and heavier users rated it *higher* `[established]` | Attribution tracks marketing framing (an experiment showed "companion" framing inflates it); treat the vibe as a product feature |
-| "It's giving me its expert opinion" | Documented framing across studies: users treat it as an intentional expert rather than a probabilistic generator `[corroborated]` | It produces answer-*shaped* text; there's no stake in being right (§3's incentives are about pleasing you) |
+| "It's giving me its expert opinion" | Documented framing across studies: users treat it as an intentional expert rather than a probabilistic generator `[corroborated]` | It produces answer-*shaped* text; there's no stake in being right (§4's incentives are about pleasing you) |
 | "It remembers me" / "same question → same answer" | Plausibly widespread — but here's honesty about limits: **no peer-reviewed measurement exists for either** `[anecdote]` | Stateless unless a memory feature exists; §1's sampling makes variation normal |
 
-## 7. The analogies, and where each one expires
+## 9. The analogies, and where each one expires
 
 Analogies are how everyone actually learns this material — and every one of them misleads somewhere. The best explainers state their own analogy's failure mode; here's the catalog, so you can use them as scaffolding without moving in permanently. `[corroborated]`
 
@@ -121,19 +151,19 @@ Analogies are how everyone actually learns this material — and every one of th
 | Stochastic parrot | Humility about mechanism; form ≠ meaning | Contested whether it still describes systems wired to tools and search — even its authors scope it carefully |
 | Dream machine | Hallucination as default mode, grounding as achievement | Overcorrects toward "arbitrary" — dreams here are tightly constrained by training and prompt |
 
-## 8. So what do you do differently?
+## 10. So what do you do differently?
 
 The payoff of the mental model, as operating rules:
 
-1. **Treat fluency as formatting.** Confidence, specificity, citations-that-look-real — all style properties of a text generator (§1, §5). Your trust should move on *verification*, never on tone. This single habit counters the best-documented failure in §6.
+1. **Treat fluency as formatting.** Confidence, specificity, citations-that-look-real — all style properties of a text generator (§1, §7) — and a visible chain of thought is one more style property, not a guarantee (§5). Your trust should move on *verification*, never on tone. This single habit counters the best-documented failure in §8.
 2. **Feed it facts; don't mine it for facts.** Its transformation of text you provide (summarize, restructure, translate, draft against your notes) rides on what it's genuinely good at. Unassisted recall from the compressed blur is where fabrication lives. When facts must come from the model, demand sources — then open them (fake citations are the canonical failure).
-3. **Nothing you type teaches it, and it holds no grudge or memory** beyond the conversation (plus any explicit memory feature). Re-asking in a fresh chat is a legitimate, informative move.
+3. **Nothing you type teaches it, and it holds no memory** beyond the window (plus any explicit memory feature — §3). Re-asking in a fresh chat, with a clean window, is a legitimate and informative move.
 4. **Use variation as a tool.** Same question, twice, fresh sessions: agreement is weak evidence of stability; divergence is strong evidence you're on shaky ground (§1's sampling means both are normal).
-5. **Expect the jagged edge.** §4's "pile of local heuristics" predicts what benchmarks confirm: performance that collapses under small reframings — a 2024 evaluation went from 97.8% to 52.8% on identical puzzles when the objects were renamed to nonsense words. Brilliant-at-X says little about X-adjacent. Test *your* task, in *your* phrasing, before trusting a capability claim. `[corroborated]`
+5. **Expect the jagged edge.** §6's "pile of local heuristics" predicts what the benchmarks in §5 confirm: performance that collapses under small reframings, even in reasoning models. Brilliant-at-X says remarkably little about X-adjacent. Test *your* task, in *your* phrasing, before trusting any capability claim — including one from this guide. `[corroborated]`
 6. **When a number matters, trace it to its table** — the habit this guide's own research keeps being saved by ([P-003](../practices/P-003-trace-the-number.md)): four of the eight headline claims we verified for this chapter arrived with real numbers wrongly labeled by the summary layer in between.
-7. **Ask "does it reliably do X, verifiably," never "does it understand."** The first question has an answer you can act on this afternoon (§4).
+7. **Ask "does it reliably do X, verifiably," never "does it understand."** The first question has an answer you can act on this afternoon (§6).
 
-The next chapter takes the second half of the story: the *product* around the model — context windows, system prompts, tools, retrieval, memory — where most day-to-day behavior you'll want explained actually comes from.
+Where this goes next: [chapter 02](../SYLLABUS.md) takes reasoning and thinking modes properly — when the extra tokens are worth it, how to read a chain of thought, what "test-time compute" changes about cost. [Chapter 03](../SYLLABUS.md) is the product around the model: system prompts, retrieval, tools, and persistent memory — where most behavior you'll want explained actually comes from, and the foundation for the agents chapter. [Chapter 04](../SYLLABUS.md) is the other family entirely: image, audio, and video generation, which doesn't work like §1 at all.
 
 ## Going deeper (all verified links, August 2026)
 
@@ -141,7 +171,7 @@ The next chapter takes the second half of the story: the *product* around the mo
 - **Watch (27 min):** [3Blue1Brown, "But what is a GPT?"](https://www.3blue1brown.com/lessons/gpt) — the visual intuition; or Karpathy's [1-hour general-audience talk](https://www.youtube.com/watch?v=zjkBMFhNj_g) (Nov 2023 vintage — mechanisms hold, model names date).
 - **Play (15 min):** [Transformer Explainer](https://poloclub.github.io/transformer-explainer/) — a live model showing §1 happening; [the tokenizer playground](https://huggingface.co/spaces/Xenova/the-tokenizer-playground).
 - **For stakes:** the [AI Hallucination Cases database](https://www.damiencharlotin.com/hallucinations/) — browsable court decisions.
-- **For the frontier of §4:** Anthropic's [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html) — unusually readable primary research; skim the worked examples.
+- **For the frontier of §6:** Anthropic's [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html) — unusually readable primary research; skim the worked examples.
 
 The full resource list, with time/cost/caveats per entry, lives in [RESOURCES.md](../RESOURCES.md).
 
