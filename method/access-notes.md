@@ -13,6 +13,7 @@ Working routes and known blocks for our WebFetch-based research agents, accumula
 
 - **arXiv**: abstract pages fetch fine; full text via `arxiv.org/html/<id>v1` (2024+ papers) or `ar5iv.labs.arxiv.org/html/<id>` (older). Raw `/pdf/` URLs return undecodable binary.
 - **Reader proxy** `https://r.jina.ai/<full-url>` works for: openai.com pages, cdn.openai.com PDFs (incl. system cards), writings.stephenwolfram.com (TLS error direct), link.springer.com (direct = institutional-login redirect).
+  - **⚠ Failure mode worse than blocking (R2, 2026-08-15):** the proxy sometimes returns *unrelated cached content* for a URL, repeatably, instead of erroring. A silent wrong-page response will look like a successful fetch. Always sanity-check that the returned title/date matches the URL requested; if it doesn't, mark the source unverified rather than quoting it.
 - **academic.oup.com**: direct fetch works; the proxy hits a CAPTCHA — go direct first (opposite of Springer).
 - **PubMed Central** (`pmc.ncbi.nlm.nih.gov`): direct works; often the best route to a paywalled paper's item-level data.
 
