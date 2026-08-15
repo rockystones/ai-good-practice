@@ -59,6 +59,8 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - **Saturation test**: run one more genuinely fresh angle. If it yields no new lineages and changes no answer, coverage is adequate for the framed scope. Two consecutive dry angles = stop.
 - **Spot audit for base error** (D-010): anchor-claim verification only audits the headlines. Also verify a small, blindly-drawn random sample of ordinary claims and publish the observed error rate in FINDINGS. A session that audits only its important claims does not know its background error rate. The sample is drawn by the orchestrator or a script — never chosen by the agent whose work is being audited.
 - **Distrust perfect results** (D-010): an agent reporting 100% success, zero problems, or nothing-to-flag gets spot-checked before its output is merged. Diligence and fabrication look identical in a summary line.
+- **One negative fetch is not evidence of absence** (D-013): before recording that a source does *not* contain something, re-check with a second, differently-phrased query. Summarizing fetch tools miss text that is demonstrably there — in R2 a first pass reported a quote absent that a second pass found verbatim in the source's opening sentence, which would have corrupted the published error rate by a full claim.
+- **Check the venue line** (D-013): for every Tier-A academic source, read the arXiv Comments field (or equivalent) for peer-review status. One line, and in R2 it corrected three sources that had been recorded as bare preprints — including a NeurIPS acceptance and a TMLR featured certification.
 
 ## Phase 4 — Synthesize *(answers Q4; FINDINGS.md)*
 
@@ -67,6 +69,8 @@ Phases 0–5 below operationalize them. Artifacts live in `research/YYYY-MM-DD-<
 - State **what remains unknown** and what would settle it.
 - Only after FINDINGS.md is complete does drafting into `primer/` or `practices/` begin.
 - **Post-draft number diff** (D-010, extending the Numbers Rule): drafting is itself a summary layer, and summary layers detach numbers from labels. After any distillation, re-check every statistic in the draft against FINDINGS before commit. Never machine-edit judgment text (truncation, auto-summarization) — route corrections back to an author.
+- **Audit the synthesis, not just the claims** (D-013): a gather file's per-claim entries can all be accurate while its ANSWERS prose over-generalizes them — and that prose is what reaches the chapter. Spot-check summary sections against the claims they rest on.
+- **Check the comparison, not only the numbers** (D-013, [P-004](../practices/P-004-check-the-comparison.md)): before printing any before/after or us/them pairing, confirm both figures measure the same thing on the same population under the same scoring. A pairing can be false while every number in it is verified.
 
 ## Phase 5 — Retrospective *(answers Q5; end of FINDINGS.md; mandatory)*
 
